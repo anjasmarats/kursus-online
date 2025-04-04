@@ -48,7 +48,13 @@ app.get('/api/course/:id/chapter/:chapterId/video', async (req, res) => {
             where: { courseId: req.params.id,id: req.params.chapterId },
             attributes: ['video'],
         });
-        res.status(200).json({data:data.video});
+        const video = `/public/courses/videos/${data.video}`;
+        return res.status(200).download(video, {
+            headers: {
+                'Content-Type': 'video/mp4',
+                'Content-Disposition': `attachment; filename=${data.video}`,
+            },
+        });
     } catch (error) {
         console.log("error server get course chapter video\n",error.message);
         res.status(400).json({ error: error.message });
