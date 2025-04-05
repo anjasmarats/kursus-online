@@ -140,9 +140,9 @@ app.get('/api/auth', async (req, res) => {
         );
         if (!user) {
             console.log("error get auth unauthorized\nuser= ",user);
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ data:false });
         }
-        res.status(200).json();
+        res.status(200).json({data:true,admin:user.role==='admin'});
     } catch (error) {
         console.log("error server get auth\n",error.message);
         res.status(500).json({ error: error.message });
