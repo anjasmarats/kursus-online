@@ -1,6 +1,6 @@
 const { Sequelize,DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('hiapps_online_course','postgres','0psqlpassword0',{
+const sequelize = new Sequelize('kursus_online','postgres','0psqlpassword0',{
     host:'localhost',
     dialect:'postgres'
 });
