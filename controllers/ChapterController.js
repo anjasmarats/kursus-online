@@ -39,7 +39,8 @@ app.get('/api/course/:id/chapter/:chapterId/video', async (req, res) => {
             { where: { logind: req.headers.authorization } }
         );
         const expiration = new Date().getTime()
-        if (!isUserExist || expiration>isUserExist.activation_time ) {
+        const time = isUserExist.activation_time? JSON.parse(isUserExist.activation_time).time : 0
+        if (!isUserExist || expiration>time ) {
             console.log("error get course chapter video unauthorized\nisuserexist= ",isUserExist);
             return res.status(400).json();
         }
@@ -71,7 +72,8 @@ app.get('/api/course/:id/chapter/:chapterId', async (req, res) => {
             { where: { logind: req.headers.authorization } }
         );
         const expiration = new Date().getTime()
-        if (!isUserExist || expiration>isUserExist.activation_time ) {
+        const time = isUserExist.activation_time? JSON.parse(isUserExist.activation_time).time : 0
+        if (!isUserExist || expiration>time ) {
             console.log("error get course chapter unauthorized\nisuserexist= ",isUserExist);
             return res.status(400).json();
         }
