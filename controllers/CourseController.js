@@ -92,18 +92,11 @@ app.post('/api/courses', async (req, res) => {
 });
 app.get('/api/course/:id', async (req, res) => {
     try {
-        if (!req.params.id || !req.headers.authorization) {
-            console.log("error get course unauthorized\nreq.params= ",req.params,"\nreq.headers= ",req.headers.authorization);
+        if (!req.params.id) {
+            console.log("error get course unauthorized\nreq.params= ",req.params);
             return res.status(404).json();
         }
 
-        const isUserExist = await User.findOne(
-            { where: { logind: req.headers.authorization } }
-        );
-        const expiration = new Date().getTime()
-        if (!isUserExist || expiration>isUserExist.activation_time ) {
-            return res.status(400).json();
-        }
         // Find course by ID
         const course = await Courses.findOne(
             { where: { id: req.params.id } },
