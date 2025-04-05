@@ -74,7 +74,7 @@ const Chapters = sequelize.define('Chapters', {
         type: DataTypes.INTEGER,
         references: {
             model: Courses,
-            key: 'id'
+            key: 'courseId'
         }
     },
     title: {
