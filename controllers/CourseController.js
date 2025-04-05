@@ -38,7 +38,7 @@ const postChapter = async (data) => {
         res.status(201).json();
     } catch (error) {
         console.log("error server post course chapter\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 }
 
@@ -87,7 +87,7 @@ app.post('/api/courses', async (req, res) => {
         res.status(201).json(course);
     } catch (error) {
         console.log("error server post course\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 app.get('/api/course/:id', async (req, res) => {
@@ -107,7 +107,7 @@ app.get('/api/course/:id', async (req, res) => {
         res.status(200).json({course});
     } catch (error) {
         console.log("error server get course\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -150,7 +150,7 @@ app.put('/api/course/:id', async (req, res) => {
         res.status(200).json();
     } catch (error) {
         console.log("error server put course\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 app.delete('/api/course/:id', async (req, res) => {
@@ -176,7 +176,7 @@ app.delete('/api/course/:id', async (req, res) => {
         res.status(200).json({ message: 'Course deleted successfully' });
     } catch (error) {
         console.log("error server delete course\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -186,6 +186,6 @@ app.get('/api/courses', async (req, res) => {
         res.status(200).json({courses});
     } catch (error) {
         console.log("error server get courses\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });

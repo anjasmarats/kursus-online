@@ -32,7 +32,7 @@ app.post('/api/user', async (req, res) => {
         res.status(201).json(user);
     } catch (error) {
         console.log("error server post user\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -49,7 +49,7 @@ app.get('/api/user/:id', async (req, res) => {
         res.status(200).json({users});
     } catch (error) {
         console.log("error server get user\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -90,7 +90,7 @@ app.put('/api/user/:id', async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         console.log("error server put user\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -107,7 +107,7 @@ app.delete('/api/user/:id', async (req, res) => {
         res.status(200).json(user);
     } catch (error) {
         console.log("error server delete user\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
@@ -125,6 +125,26 @@ app.get('/api/users', async (req, res) => {
         res.status(200).json(users);
     } catch (error) {
         console.log("error server get users\n",error.message);
-        res.status(400).json({ error: error.message });
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/auth', async (req, res) => {
+    try {
+        if (!req.headers.authorization) {
+            console.log("error get auth data tidak lengkap\nreq.headers= ",req.headers.authorization);
+            return res.status(400).json();
+        }
+        const user = await User.findOne(
+            { where: { logind: req.headers.authorization } }
+        );
+        if (!user) {
+            console.log("error get auth unauthorized\nuser= ",user);
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json();
+    } catch (error) {
+        console.log("error server get auth\n",error.message);
+        res.status(500).json({ error: error.message });
     }
 });
