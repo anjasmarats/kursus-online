@@ -91,36 +91,32 @@ const Chapters = sequelize.define('Chapters', {
     },
 });
 
-// const Enrollment = sequelize.define('Enrollment', {
-//     id: {
-//         type: DataTypes.INTEGER,
-//         primaryKey: true,
-//         autoIncrement: true
-//     },
-//     userId: {
-//         type: DataTypes.INTEGER,
-//         references: {
-//             model: User,
-//             key: 'id'
-//         }
-//     },
-//     courseId: {
-//         type: DataTypes.INTEGER,
-//         references: {
-//             model: Courses,
-//             key: 'id'
-//         }
-//     },
-//     status:{
-//         type:DataTypes.ENUM('active','completed','dropped'),
-//         defaultValue:'active'
-//     }
-// });
+const Enrollment = sequelize.define('Enrollment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    userId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
+    courseId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Courses,
+            key: 'courseId'
+        }
+    },
+});
 
 module.exports = {
     sequelize,
     User,
     Courses,
     Chapters,
-    // Enrollment
+    Enrollment
 };
