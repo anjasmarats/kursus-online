@@ -32,8 +32,8 @@ const User = sequelize.define('User', {
         type:DataTypes.ENUM('admin','student'),
         defaultValue:'student'
     },
-    course_duration:{
-        type:DataTypes.INTEGER,
+    activation_time:{
+        type:DataTypes.JSONB,
     },
     photo:{
         type:DataTypes.TEXT,
