@@ -173,7 +173,10 @@ app.get('/api/user', async (req, res) => {
             return res.status(400).json();
         }
         const user = await User.findOne(
-            { where: { logind: req.headers.authorization.split('')[1] } }
+            {
+                attributes: ['name','email','logind','activation_time','photo'],
+                where: { logind: req.headers.authorization.split('')[1] } 
+            }
         );
         if (!user) {
             console.log("error get user unauthorized\nuser= ",user);
