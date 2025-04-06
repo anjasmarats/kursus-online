@@ -174,7 +174,7 @@ app.get('/api/user', async (req, res) => {
         }
         const user = await User.findOne(
             {
-                attributes: ['name','email','logind','activation_time','photo'],
+                attributes: ['name','email','activation_time','photo'],
                 where: { logind: req.headers.authorization.split('')[1] } 
             }
         );
