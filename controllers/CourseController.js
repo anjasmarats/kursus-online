@@ -35,10 +35,10 @@ const postChapter = async (data) => {
             video:`${courseTitle,'-',chapterTitle,'-',video.name}`,
             courseId
         });
-        res.status(201).json();
+        return res.status(201).json();
     } catch (error) {
         console.log("error server post course chapter\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 }
 
@@ -84,10 +84,10 @@ app.post('/api/courses', async (req, res) => {
             }
         }
         
-        res.status(201).json(course);
+        return res.status(201).json(course);
     } catch (error) {
         console.log("error server post course\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 app.get('/api/course/:id', async (req, res) => {
@@ -104,10 +104,10 @@ app.get('/api/course/:id', async (req, res) => {
                 { model: Chapters, as: 'chapters' },
             ]}
         );
-        res.status(200).json({course});
+        return res.status(200).json({course});
     } catch (error) {
         console.log("error server get course\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -147,10 +147,10 @@ app.put('/api/course/:id', async (req, res) => {
                 price
             }, { where: { id: req.params.id } });
         }
-        res.status(200).json();
+        return res.status(200).json();
     } catch (error) {
         console.log("error server put course\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 app.delete('/api/course/:id', async (req, res) => {
@@ -173,19 +173,19 @@ app.delete('/api/course/:id', async (req, res) => {
             return res.status(404).json({ message: 'Course not found' });
         }
         await Courses.destroy({ where: { id: req.params.id } });
-        res.status(200).json({ message: 'Course deleted successfully' });
+        return res.status(200).json({ message: 'Course deleted successfully' });
     } catch (error) {
         console.log("error server delete course\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
 app.get('/api/courses', async (req, res) => {
     try {
         const courses = await Courses.findAll();
-        res.status(200).json({courses});
+        return res.status(200).json({courses});
     } catch (error) {
         console.log("error server get courses\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });

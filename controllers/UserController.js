@@ -32,10 +32,10 @@ app.post('/api/user', async (req, res) => {
             });
         }
         const hashedPassword = await bcryptjs.hash(password, 10);
-        res.status(201).json({data:logind});
+        return res.status(201).json({data:logind});
     } catch (error) {
         console.log("error server post user\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -56,10 +56,10 @@ app.get('/api/user/:id', async (req, res) => {
         const users = await User.findOne(
             { where: { id: req.params.id } }
         );
-        res.status(200).json({users});
+        return res.status(200).json({users});
     } catch (error) {
         console.log("error server get user\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -97,10 +97,10 @@ app.put('/api/user/:id', async (req, res) => {
             );
         }
         // Find user by ID
-        res.status(200).json();
+        return res.status(200).json();
     } catch (error) {
         console.log("error server put user\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -121,10 +121,10 @@ app.delete('/api/user/:id', async (req, res) => {
         await User.destroy(
             { where: { id: req.params.id } }
         );
-        res.status(200).json();
+        return res.status(200).json();
     } catch (error) {
         console.log("error server delete user\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -139,10 +139,10 @@ app.get('/api/users', async (req, res) => {
         }
         // Find all users
         const users = await User.findAll();
-        res.status(200).json(users);
+        return res.status(200).json(users);
     } catch (error) {
         console.log("error server get users\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -159,10 +159,10 @@ app.get('/api/auth', async (req, res) => {
             console.log("error get auth unauthorized\nuser= ",user);
             return res.status(404).json({ data:false });
         }
-        res.status(200).json({data:true,admin:user.role==='admin'});
+        return res.status(200).json({data:true,admin:user.role==='admin'});
     } catch (error) {
         console.log("error server get auth\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
 
@@ -182,9 +182,9 @@ app.get('/api/user', async (req, res) => {
             console.log("error get user unauthorized\nuser= ",user);
             return res.status(404).json({ data:false });
         }
-        res.status(200).json({user});
+        return res.status(200).json({user});
     } catch (error) {
         console.log("error server get user\n",error.message);
-        res.status(500).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 });
