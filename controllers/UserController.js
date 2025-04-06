@@ -151,3 +151,23 @@ app.get('/api/auth', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+app.get('/api/user', async (req, res) => {
+    try {
+        if (!req.headers.authorization) {
+            console.log("error get user data tidak lengkap\nreq.headers= ",req.headers.authorization);
+            return res.status(400).json();
+        }
+        const user = await User.findOne(
+            { where: { logind: req.headers.authorization } }
+        );
+        if (!user) {
+            console.log("error get user unauthorized\nuser= ",user);
+            return res.status(404).json({ data:false });
+        }
+        res.status(200).json({user});
+    } catch (error) {
+        console.log("error server get user\n",error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
