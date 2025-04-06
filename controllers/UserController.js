@@ -9,6 +9,7 @@ app.post('/api/user', async (req, res) => {
             console.log("error post user data tidak lengkap\nreq.body= ",req.body);
             return res.status(400).json();
         }
+        const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
         if (req.files && req.files.image) {
             const image = req.files.image;
             const imagePath = `public/users/${image,'-',image.name}`;
@@ -18,18 +19,20 @@ app.post('/api/user', async (req, res) => {
                 email,
                 password: hashedPassword,
                 role,
-                photo:`${image,'-',image.name}`
+                photo:`${image,'-',image.name}`,
+                logind
             });
         } else {
             await User.create({
                 name,
                 email,
                 password: hashedPassword,
-                role
+                role,
+                logind
             });
         }
         const hashedPassword = await bcryptjs.hash(password, 10);
-        res.status(201).json(user);
+        res.status(201).json({data:logind});
     } catch (error) {
         console.log("error server post user\n",error.message);
         res.status(500).json({ error: error.message });
