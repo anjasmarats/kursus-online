@@ -41,9 +41,16 @@ app.post('/api/user', async (req, res) => {
 
 app.get('/api/user/:id', async (req, res) => {
     try {
-        if (!req.params.id) {
-            console.log("error get user data unauthorized\nreq.params= ",req.params);
+        if (!req.params.id || !req.headers.authorization) {
+            console.log("error get user data unauthorized\nreq.params= ",req.params,"req.headers= ",req.headers.authorization);
             return res.status(400).json();
+        }
+        const admin = await User.findOne(
+            { where: { logind: req.headers.authorization.split(' ')[1],role:'admin' } }
+        );
+        if (!admin) {
+            console.log("error get user unauthorized\nadmin= ",admin);
+            return res.status(404).json({ data:false });
         }
         // Find user by ID
         const users = await User.findOne(
@@ -58,19 +65,19 @@ app.get('/api/user/:id', async (req, res) => {
 
 app.put('/api/user/:id', async (req, res) => {
     try {
-        if (!req.params.id) {
-            console.log("error put user unauthorized\nreq.params= ",req.params);
+        if (!req.params.id || !req.headers.authorization) {
+            console.log("error put user unauthorized\nreq.params= ",req.params,"\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
         }
-        const { name, email, password, role, logind } = req.body;
+        const { name, email, password, role } = req.body;
         
         const isUserExist = await User.findOne(
-            { where: { logind } }
+            { where: { logind:req.headers.authorization.split(' ')[1] } }
         );
 
         const cekPassword = await bcryptjs.compare(password, isUserExist?isUserExist.password:"");
         
-        if (!req.body || !name || !email || !password || !logind || !isUserExist || !cekPassword) {
+        if (!req.body || !name || !email || !password || !req.headers.authorization || !isUserExist || !cekPassword ) {
             console.log("error put user data tidak lengkap\nreq.body= ",req.body,"cekpassword= ",cekPassword,"isuserexist= ",isUserExist);
             return res.status(400).json();
         }
@@ -90,7 +97,7 @@ app.put('/api/user/:id', async (req, res) => {
             );
         }
         // Find user by ID
-        res.status(200).json(user);
+        res.status(200).json();
     } catch (error) {
         console.log("error server put user\n",error.message);
         res.status(500).json({ error: error.message });
@@ -99,15 +106,22 @@ app.put('/api/user/:id', async (req, res) => {
 
 app.delete('/api/user/:id', async (req, res) => {
     try {
-        if (!req.params.id) {
-            console.log("error delete user data tidak lengkap\nreq.params= ",req.params);
+        if (!req.params.id || !req.headers.authorization) {
+            console.log("error delete user data tidak lengkap\nreq.params= ",req.params,"\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
         }
+        const admin = await User.findOne(
+            { where: { logind: req.headers.authorization.split(' ')[1],role:'admin' } }
+        );
+        if (!admin) {
+            console.log("error delete user unauthorized\nadmin= ",admin);
+            return res.status(404).json();
+        }
         // Find user by ID
-        const user = await User.destroy(
+        await User.destroy(
             { where: { id: req.params.id } }
         );
-        res.status(200).json(user);
+        res.status(200).json();
     } catch (error) {
         console.log("error server delete user\n",error.message);
         res.status(500).json({ error: error.message });
@@ -117,7 +131,7 @@ app.delete('/api/user/:id', async (req, res) => {
 app.get('/api/users', async (req, res) => {
     try {
         const admin = await User.findOne(
-            { where: { role: 'admin',logind:req.headers.authorization } }
+            { where: { role: 'admin',logind:req.headers.authorization.split(' ')[1] } }
         );
         if (!req.headers.authorization ||!admin) {
             console.log("error get users data tidak lengkap\nreq.headers= ",req.headers,"admin= ",admin);

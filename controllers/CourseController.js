@@ -13,7 +13,7 @@ const postChapter = async (data) => {
             return false;
         }
         // const isUserExist = await User.findOne(
-        //     { where: { logind: req.headers.authorization } }
+        //     { where: { logind: req.headers.authorization.split(' ')[1] } }
         // );
         // if (!isUserExist) {
         //     console.log("error post course chapter unauthorized\nisuserexist= ",isUserExist);
@@ -48,7 +48,7 @@ app.post('/api/courses', async (req, res) => {
             console.log("error post course unauthorized\n\nreq.headers= ",req.headers.authorization);
         }
         const admin = await User.findOne(
-            { where: { logind: req.headers.authorization,role:'admin' }
+            { where: { logind: req.headers.authorization.split(' ')[1],role:'admin' }
         });
         if (!admin) {
             console.log("error post course unauthorized\nadmin= ",admin);
@@ -124,7 +124,7 @@ app.put('/api/course/:id', async (req, res) => {
         }
 
         const admin = await User.findOne(
-            { where: { logind: req.headers.authorization,role:'admin' } }
+            { where: { logind: req.headers.authorization.split(' ')[1],role:'admin' } }
         );
         if (!admin) {
             console.log("error put course unauthorized\nadmin= ",admin);
@@ -160,7 +160,7 @@ app.delete('/api/course/:id', async (req, res) => {
             return res.status(400).json();
         }
         const admin = await User.findOne(
-            { where: { logind: req.headers.authorization,role:'admin' } }
+            { where: { logind: req.headers.authorization.split(' ')[1],role:'admin' } }
         );
         if (!admin) {
             console.log("error delete course unauthorized\nadmin= ",admin);

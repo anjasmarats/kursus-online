@@ -9,7 +9,7 @@ const { Chapters, User, Courses } = require('../models');
 //         }
 
 //         const isUserExist = await User.findOne(
-//             { where: { logind: req.headers.authorization } }
+//             { where: { logind: req.headers.authorization.split(' ')[1] } }
 //         );
         // const expiration = new Date().getTime()
         // if (!isUserExist || expiration>isUserExist.activation_time ) {
@@ -36,7 +36,7 @@ app.get('/api/course/:id/chapter/:chapterId/video', async (req, res) => {
             return res.status(400).json();
         }
         const isUserExist = await User.findOne(
-            { where: { logind: req.headers.authorization } }
+            { where: { logind: req.headers.authorization.split(' ')[1] } }
         );
         const expiration = new Date().getTime()
         const time = isUserExist.activation_time? JSON.parse(isUserExist.activation_time).time : 0
@@ -69,7 +69,7 @@ app.get('/api/course/:id/chapter/:chapterId', async (req, res) => {
             return res.status(400).json();
         }
         const isUserExist = await User.findOne(
-            { where: { logind: req.headers.authorization } }
+            { where: { logind: req.headers.authorization.split(' ')[1] } }
         );
         const expiration = new Date().getTime()
         const time = isUserExist.activation_time? JSON.parse(isUserExist.activation_time).time : 0
