@@ -2,7 +2,7 @@ const { app } = require('../server');
 const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
 
-app.get('/api/login',async(req,res)=>{
+app.post('/api/login',async(req,res)=>{
     try {
         const { email,password } = req.body
         if (!req.body || !email || !password) {
