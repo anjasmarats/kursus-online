@@ -47,6 +47,7 @@ app.post('/api/user', async (req, res) => {
             console.error("error post user, user sudah ada")
             return res.status(400).json()
         }
+        const hashedPassword = await bcryptjs.hash(password, 10);
         const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
         if (req.files && req.files.image) {
             const image = req.files.image;
@@ -69,7 +70,6 @@ app.post('/api/user', async (req, res) => {
                 logind
             });
         }
-        const hashedPassword = await bcryptjs.hash(password, 10);
         return res.status(201).json({data:logind});
     } catch (error) {
         console.error("error server post user\n",error.message);
