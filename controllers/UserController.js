@@ -10,7 +10,7 @@ app.post('/api/login',async(req,res)=>{
             return res.status(402).json()
         }
 
-        const user = await User.findAll({
+        const user = await User.findOne({
             where:{
                 email
             }
