@@ -12,6 +12,7 @@ sequelize.sync({ force: false }).then(() => {
 
 import('./controllers/UserController.js');
 import('./controllers/CourseController.js');
+import("./controllers/ChapterController.js")
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
