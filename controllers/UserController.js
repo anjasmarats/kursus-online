@@ -45,7 +45,7 @@ app.post('/api/user', async (req, res) => {
 
         if (user) {
             console.error("error post user, user sudah ada")
-            return res.status(400).json({message:"email"})
+            return res.status(400).json()
         }
         const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
         if (req.files && req.files.image) {
