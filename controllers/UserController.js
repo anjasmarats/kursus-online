@@ -2,6 +2,49 @@ const { app } = require('../server');
 const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
 
+app.get('/api/login',async(req,res)=>{
+    try {
+        const { email,password } = req.body
+        if (!req.body || !email || !password) {
+            console.error("error login user data tidak lengkap\nreq.body = ",req.body,"\nemail = ",email,"\npassword = ",password)
+            return res.status(402).json()
+        }
+
+        const user = await User.findAll({
+            where:{
+                email
+            }
+        })
+
+        if (!user) {
+            console.error("error login user, user tidak ada\nuser = ",user)
+            return res.status(404).json()
+        }
+
+        const cekPassword = await bcryptjs.compare(password,user.password)
+
+        if (!cekPassword) {
+            console.error("error login user password salah\npassword = ",password)
+            return res.status(400).json()
+        }
+
+        const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
+
+        await User.update({
+            logind,
+        },{
+            where:{
+                email
+            }
+        })
+
+        return res.status(200).json()
+    } catch (e) {
+        console.error("error server login user\n",e)
+        return res.status(500).json()
+    }
+})
+
 app.get('/api/user/photo', async (req, res) => {
     try {
         if (!req.headers.authorization) {
