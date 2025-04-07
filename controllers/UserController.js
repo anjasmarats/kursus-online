@@ -38,7 +38,7 @@ app.get('/api/login',async(req,res)=>{
             }
         })
 
-        return res.status(200).json()
+        return res.status(200).json({data:logind})
     } catch (e) {
         console.error("error server login user\n",e)
         return res.status(500).json()
