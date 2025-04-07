@@ -45,7 +45,7 @@ app.post('/api/user', async (req, res) => {
 
         console.log("user",user)
 
-        if (user) {
+        if (user.length>0) {
             console.error("error post user, user sudah ada")
             return res.status(400).json()
         }
