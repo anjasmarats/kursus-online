@@ -25,7 +25,7 @@ const User = sequelize.define('User', {
         allowNull: false
     },
     logind:{
-        type:DataTypes.CHAR(100),
+        type:DataTypes.CHAR,
         allowNull:false,
     },
     role:{
