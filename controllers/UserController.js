@@ -37,7 +37,7 @@ app.post('/api/user', async (req, res) => {
             console.error("error post user data tidak lengkap\nreq.body= ",req.body);
             return res.status(400).json();
         }
-        const user = User.findAll({
+        const user = await User.findAll({
             where:{
                 email
             }
