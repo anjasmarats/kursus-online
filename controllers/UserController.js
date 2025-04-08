@@ -255,12 +255,18 @@ app.get('/api/user', async (req, res) => {
             console.error("error get user data tidak lengkap\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
         }
+
+        console.log("logind",req.headers.authorization.split(' '[1]))
+
         const user = await User.findOne(
             {
                 attributes: ['name','email','activation_time','photo'],
                 where: { logind: req.headers.authorization.split('')[1] } 
             }
         );
+
+        console.log("user",user)
+
         if (!user) {
             console.error("error get user unauthorized\nuser= ",user);
             return res.status(404).json({ data:false });
