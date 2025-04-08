@@ -70,7 +70,7 @@ app.get('/api/user/photo', async (req, res) => {
                 },
             });
         } else {
-            return status(404).json()
+            return res.status(404).json()
         }
     } catch (error) {
         console.error("error server get user photo\n",error.message);
