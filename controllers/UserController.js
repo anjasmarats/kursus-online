@@ -1,6 +1,7 @@
 const { app } = require('../server');
 const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
+const fs = require("fs")
 
 app.post('/api/login',async(req,res)=>{
     try {
@@ -61,12 +62,16 @@ app.get('/api/user/photo', async (req, res) => {
         }
 
         const photo = `/public/users/${user.photo}`;
-        return res.status(200).download(photo, {
-            headers: {
-                'Content-Type': 'image/*',
-                'Content-Disposition': `attachment; filename=${user.photo}`,
-            },
-        });
+        if (fs.existsSync(photo)) {
+            return res.status(200).download(photo, {
+                headers: {
+                    'Content-Type': 'image/*',
+                    'Content-Disposition': `attachment; filename=${user.photo}`,
+                },
+            });
+        } else {
+            return status(404).json()
+        }
     } catch (error) {
         console.error("error server get user photo\n",error.message);
         return res.status(500).json({ error: error.message });
