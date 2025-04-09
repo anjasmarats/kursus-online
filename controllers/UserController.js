@@ -241,7 +241,7 @@ app.get('/api/auth', async (req, res) => {
             return res.status(400).json();
         }
         const user = await User.findOne(
-            { where: { logind: req.headers.authorization } }
+            { where: { logind: req.headers.authorization.split(' ')[1] } }
         );
         if (!user) {
             console.error("error get auth unauthorized\nuser= ",user);
