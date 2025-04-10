@@ -166,25 +166,23 @@ app.put('/api/user', async (req, res) => {
 
         console.log("req body user put = ",req.body)
         console.log("isuserexist",isUserExist)
-
-        const cekPassword = password?await bcryptjs.compare(password, isUserExist?isUserExist.password:""):true;
         
-        if (!req.body || !name || !email || !req.headers.authorization || !isUserExist || !cekPassword ) {
-            console.error("error put user data tidak lengkap\nreq.body= ",req.body,"cekpassword= ",cekPassword,"isuserexist= ",isUserExist);
+        if (!req.body || !req.headers.authorization || !isUserExist ) {
+            console.error("error put user data tidak lengkap\nreq.body= ",req.body,"isuserexist= ",isUserExist);
             return res.status(400).json();
         }
-        const hashedPassword = await bcryptjs.hash(password, 10);
+        const hashedPassword = password?await bcryptjs.hash(password, 10):isUserExist.password;
         if (req.files && req.files.image) {
             const image = req.files.image;
             const imagePath = `public/users/${image,'-',image.name}`;
             await image.mv(imagePath);
             await User.update(
-                { name, email, password:hashedPassword, photo:`${image,'-',image.name}` },
+                { name:name||isUserExist.name, email:email||isUserExist.email, password:hashedPassword, photo:`${image,'-',image.name}` },
                 { where: { logind:req.headers.authorization.split(' ')[1] } }
             );
         } else {
             await User.update(
-                { name, email, password:hashedPassword },
+                { name:name||isUserExist.name, email:email||isUserExist.email, password:hashedPassword },
                 { where: { logind:req.headers.authorization.split(' ')[1] } }
             );
         }
