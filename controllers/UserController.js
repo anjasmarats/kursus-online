@@ -169,7 +169,7 @@ app.put('/api/user', async (req, res) => {
 
         const cekPassword = await bcryptjs.compare(password, isUserExist?isUserExist.password:"");
         
-        if (!req.body || !name || !email || !password || !req.headers.authorization || !isUserExist || !cekPassword ) {
+        if (!req.body || !name || !email || !req.headers.authorization || !isUserExist || !cekPassword ) {
             console.error("error put user data tidak lengkap\nreq.body= ",req.body,"cekpassword= ",cekPassword,"isuserexist= ",isUserExist);
             return res.status(400).json();
         }
