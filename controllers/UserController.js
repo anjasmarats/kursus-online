@@ -179,12 +179,12 @@ app.put('/api/user', async (req, res) => {
             const imagePath = `public/users/${image,'-',image.name}`;
             await image.mv(imagePath);
             await User.update(
-                { name, email, password:hashedPassword, role, photo:`${image,'-',image.name}` },
+                { name, email, password:hashedPassword, photo:`${image,'-',image.name}` },
                 { where: { logind:req.headers.authorization.split(' ')[1] } }
             );
         } else {
             await User.update(
-                { name, email, password:hashedPassword, role },
+                { name, email, password:hashedPassword },
                 { where: { logind:req.headers.authorization.split(' ')[1] } }
             );
         }
