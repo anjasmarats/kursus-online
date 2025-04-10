@@ -153,6 +153,7 @@ app.get('/api/user/:id', async (req, res) => {
 
 app.put('/api/user', async (req, res) => {
     try {
+        console.log("\n\n\napi user\n\n\n")
         if (!req.headers.authorization) {
             console.error("error put user unauthorized\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
