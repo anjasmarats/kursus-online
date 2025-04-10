@@ -153,8 +153,8 @@ app.get('/api/user/:id', async (req, res) => {
 
 app.put('/api/user/:id', async (req, res) => {
     try {
-        if (!req.params.id || !req.headers.authorization) {
-            console.error("error put user unauthorized\nreq.params= ",req.params,"\nreq.headers= ",req.headers.authorization);
+        if (!req.headers.authorization) {
+            console.error("error put user unauthorized\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
         }
         const { name, email, password, role } = req.body;
@@ -181,7 +181,7 @@ app.put('/api/user/:id', async (req, res) => {
         } else {
             await User.update(
                 { name, email, password:hashedPassword, role },
-                { where: { id: req.params.id } }
+                { where: { logind:req.headers.authorization.split(' ')[1] } }
             );
         }
         // Find user by ID
