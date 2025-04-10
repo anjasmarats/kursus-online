@@ -157,11 +157,14 @@ app.put('/api/user', async (req, res) => {
             console.error("error put user unauthorized\nreq.headers= ",req.headers.authorization);
             return res.status(400).json();
         }
-        const { name, email, password, role } = req.body;
+        const { name, email, password } = req.body;
         
         const isUserExist = await User.findOne(
             { where: { logind:req.headers.authorization.split(' ')[1] } }
         );
+
+        console.log("req body user put = ",req.body)
+        console.log("isuserexist",isUserExist)
 
         const cekPassword = await bcryptjs.compare(password, isUserExist?isUserExist.password:"");
         
