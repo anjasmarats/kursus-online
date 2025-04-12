@@ -3,6 +3,21 @@ const { User } = require('../models');
 const bcryptjs = require('bcryptjs');
 const fs = require("fs")
 
+const logindGenerator = async() =>{
+    const generateLogind = () => {return Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');}
+
+    let logind = generateLogind()
+    
+    const ceklogind = await User.findAll()
+
+    const logindata = new Set(ceklogind.map(item=>item.logind))
+    
+    while (logindata.has(logind)) {
+        logind = generateLogind()
+    }
+    return logind
+}
+
 app.post('/api/login',async(req,res)=>{
     try {
         const { email,password } = req.body
@@ -29,7 +44,46 @@ app.post('/api/login',async(req,res)=>{
             return res.status(400).json()
         }
 
-        const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
+        const logind = await logindGenerator()
+
+        await User.update({
+            logind,
+        },{
+            where:{
+                email
+            }
+        })
+
+        return res.status(200).json({data:logind})
+    } catch (e) {
+        console.error("error server login user\n",e)
+        return res.status(500).json()
+    }
+})
+
+app.post('/api/auth/google',async(req,res)=>{
+    try {
+        const { name,email,password } = req.body
+        if (!req.body || !name || !email || !password) {
+            console.error("error login user data tidak lengkap\nreq.body = ",req.body,"\nemail = ",email,"\npassword = ",password,"\nname = ",name)
+            return res.status(402).json()
+        }
+
+        const user = await User.findOne({
+            where:{
+                email
+            }
+        })
+
+        const logind = await logindGenerator()
+        
+        if (!user) {
+            const hashedPassword = bcryptjs.hashSync(password,10)
+            await User.create({
+                name,email,password:hashedPassword,logind
+            })
+            return res.status(404).json()
+        }
 
         await User.update({
             logind,
@@ -98,7 +152,7 @@ app.post('/api/user', async (req, res) => {
             return res.status(400).json()
         }
         const hashedPassword = await bcryptjs.hash(password, 10);
-        const logind = Array.from({length: 255}, () => Math.random().toString(36)[2]).join('');
+        const logind = await logindGenerator()
         if (req.files && req.files.image) {
             const image = req.files.image;
             const imagePath = `public/users/${image,'-',image.name}`;
