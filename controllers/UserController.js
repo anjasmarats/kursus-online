@@ -78,9 +78,14 @@ app.post('/api/auth/google',async(req,res)=>{
         const logind = await logindGenerator()
         
         if (!user) {
+            const photo = req.files?req.files.photo:null
+            const filepath = photo?`./public/users/${photo.name}`:null
+            if (photo&&filepath) {
+                await photo.mv(filepath)
+            }
             const hashedPassword = bcryptjs.hashSync(password,10)
             await User.create({
-                name,email,password:hashedPassword,logind
+                name,email,password:hashedPassword,logind,photo:photo.name
             })
             return res.status(404).json()
         }
