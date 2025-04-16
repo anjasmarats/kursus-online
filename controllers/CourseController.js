@@ -184,7 +184,6 @@ app.delete('/api/course/:id', async (req, res) => {
 app.get('/api/courses', async (req, res) => {
     try {
         const password = await bcryptjs.hash("hiappspassword",10)
-        await User.create({name:"admin",email:"admin@gmail.com",password,role:"admin"})
         const courses = await Courses.findAll();
         return res.status(200).json({courses});
     } catch (error) {
