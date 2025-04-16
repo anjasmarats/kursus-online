@@ -39,7 +39,7 @@ const User = sequelize.define('User', {
         type:DataTypes.TEXT,
     },
     delete:{
-        type:DataTypes.BOOL,
+        type:DataTypes.BOOLEAN,
         allowNull:true
     }
 });
@@ -67,7 +67,7 @@ const Courses = sequelize.define('Courses', {
         allowNull:false
     },
     delete:{
-        type:DataTypes.BOOL,
+        type:DataTypes.BOOLEAN,
         allowNull:true
     }
 });
@@ -98,7 +98,7 @@ const Chapters = sequelize.define('Chapters', {
         allowNull:false
     },
     delete:{
-        type:DataTypes.BOOL,
+        type:DataTypes.BOOLEAN,
         allowNull:true
     }
 });
@@ -124,7 +124,7 @@ const Enrollment = sequelize.define('Enrollment', {
         }
     },
     delete:{
-        type:DataTypes.BOOL,
+        type:DataTypes.BOOLEAN,
         allowNull:true
     }
 });
