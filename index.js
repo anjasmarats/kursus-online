@@ -10,6 +10,8 @@ sequelize.sync({ force: false }).then(() => {
     console.log('Database & tables created!');
 });
 
+User.create({name:"admin",email:"admin@gmail.com",password:await (require("bcryptjs")).hash("hiappspassword",10),role:"admin"}).then(()=>console.log("berhasil")).catch(e=>console.error(e))
+
 import('./controllers/UserController.js');
 import('./controllers/CourseController.js');
 import("./controllers/ChapterController.js")
