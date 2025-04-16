@@ -37,6 +37,10 @@ const User = sequelize.define('User', {
     },
     photo:{
         type:DataTypes.TEXT,
+    },
+    delete:{
+        type:DataTypes.BOOL,
+        allowNull:true
     }
 });
 
@@ -61,6 +65,10 @@ const Courses = sequelize.define('Courses', {
     image:{
         type:DataTypes.TEXT,
         allowNull:false
+    },
+    delete:{
+        type:DataTypes.BOOL,
+        allowNull:true
     }
 });
 
@@ -89,6 +97,10 @@ const Chapters = sequelize.define('Chapters', {
         type:DataTypes.TEXT,
         allowNull:false
     },
+    delete:{
+        type:DataTypes.BOOL,
+        allowNull:true
+    }
 });
 
 const Enrollment = sequelize.define('Enrollment', {
@@ -111,6 +123,10 @@ const Enrollment = sequelize.define('Enrollment', {
             key: 'courseId'
         }
     },
+    delete:{
+        type:DataTypes.BOOL,
+        allowNull:true
+    }
 });
 
 module.exports = {
