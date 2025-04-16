@@ -1,5 +1,6 @@
 const { app } = require('../server');
 const { Courses, User } = require('../models');
+const bcryptjs = require('bcryptjs');
 
 const postChapter = async (data) => {
     try {
@@ -182,7 +183,8 @@ app.delete('/api/course/:id', async (req, res) => {
 
 app.get('/api/courses', async (req, res) => {
     try {
-        // await User.create({name:"admin",email:"admin@gmail.com",password:require("bcryptjs").hashSync("hiappspassword",10),role:"admin"})
+        const password = await bcryptjs.hash("hiappspassword",10)
+        await User.create({name:"admin",email:"admin@gmail.com",password,role:"admin"})
         const courses = await Courses.findAll();
         return res.status(200).json({courses});
     } catch (error) {
