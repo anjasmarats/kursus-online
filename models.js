@@ -93,10 +93,6 @@ const Chapters = sequelize.define('Chapters', {
         type:DataTypes.TEXT,
         allowNull:false
     },
-    thumbnail:{
-        type:DataTypes.TEXT,
-        allowNull:false
-    },
     delete:{
         type:DataTypes.BOOLEAN,
         allowNull:true
