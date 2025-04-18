@@ -52,7 +52,8 @@ const Courses = sequelize.define('Courses', {
     },
     title: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        unique:true
     },
     description: {
         type: DataTypes.TEXT,
@@ -86,6 +87,7 @@ const Chapters = sequelize.define('Chapters', {
         }
     },
     title: {
+        unique:true,
         type: DataTypes.TEXT,
         allowNull: false
     },
