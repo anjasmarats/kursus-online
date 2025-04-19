@@ -8,7 +8,7 @@ const postChapter = async (data) => {
         //     console.log("error post course chapter unauthorized\n\nreq.headers= ",req.headers.authorization,"req.params= ",req.params);
         //     return res.status(400).json();
         // }
-        const { description, video, chapterTitle, courseId, courseTitle } = data;
+        const { description, video, chapterTitle, courseId, courseTitle,chapterNote } = data;
         if (!courseTitle || !description || !video || !chapterTitle || !courseId) {
             console.log("error post course chapter data tidak lengkap\ndata= ",data);
             return false;
@@ -55,8 +55,8 @@ app.post('/api/course', async (req, res) => {
             console.log("error post course unauthorized\nadmin= ",admin);
             return res.status(404).json();
         }
-        const { title, description, price, chapters } = req.body;
-        if (!req.body || !title || !description || !price || !image || !req.files || !chapters || chapters.length === 0) {
+        const { title, description, price, chapters, thumbnail, chapterNote } = req.body;
+        if (!req.body || !title || !description || !price || !image || !req.files || !chapterNote || !chapters || chapters.length === 0 || !thumbnail) {
             console.log("error post course data tidak lengkap\nreq.body= ",req.body);
             return res.status(400).json();
         }
@@ -67,7 +67,8 @@ app.post('/api/course', async (req, res) => {
             title,
             description,
             price,
-            image:`${'course-thumbnail-',title,'-',image.name}`
+            image:`${'course-thumbnail-',title,'-',image.name}`,
+            thumbnail
         });
 
         for (const element of chapters) {   
@@ -76,7 +77,8 @@ app.post('/api/course', async (req, res) => {
                 video: element.video,
                 chapterTitle: element.title,
                 courseId: course.id,
-                courseTitle: title
+                courseTitle: title,
+                chapterNote
             });
 
             if (!newChapter) { 
