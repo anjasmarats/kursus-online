@@ -87,7 +87,7 @@ app.post('/api/course', async (req, res) => {
             }
         }
         
-        return res.status(201).json(course);
+        return res.status(201).json();
     } catch (error) {
         console.log("error server post course\n",error.message);
         return res.status(500).json({ error: error.message });
