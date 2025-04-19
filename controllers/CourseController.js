@@ -43,7 +43,7 @@ const postChapter = async (data) => {
     }
 }
 
-app.post('/api/courses', async (req, res) => {
+app.post('/api/course', async (req, res) => {
     try {
         if (!req.headers.authorization) {
             console.log("error post course unauthorized\n\nreq.headers= ",req.headers.authorization);
