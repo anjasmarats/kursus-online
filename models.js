@@ -95,6 +95,10 @@ const Chapters = sequelize.define('Chapters', {
         type:DataTypes.TEXT,
         allowNull:false
     },
+    video:{
+        type:DataTypes.CHAR,
+        allowNull:false
+    },
     delete:{
         type:DataTypes.BOOLEAN,
         allowNull:true

@@ -34,7 +34,8 @@ const postChapter = async (data) => {
             title,
             description,
             video:`${courseTitle,'-',chapterTitle,'-',video.name}`,
-            courseId
+            courseId,
+            chapterNote
         });
         return res.status(201).json();
     } catch (error) {
