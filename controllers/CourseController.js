@@ -37,7 +37,6 @@ const postChapter = async (data) => {
             courseId,
             chapterNote
         });
-        return res.status(201).json();
     } catch (error) {
         console.log("error server post course chapter\n",error.message);
         return res.status(500).json({ error: error.message });
